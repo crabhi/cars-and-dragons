@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Auta a draci</string>
+    <string name="car_title_party">Družina</string>
+    <string name="car_loading">Připravuji hru…</string>
+    <string name="car_paused">Pozastaveno</string>
+    <string name="car_action_pause">Pauza</string>
+    <string name="car_action_resume">Pokračovat</string>
+    <string name="car_action_new_game">Nová hra</string>
+    <string name="car_enemies">Nepřátelé: %1$s</string>
+    <string name="car_turn_marker">▶ %1$s</string>
+    <string name="car_row_detail">%1$s · TZ %2$d · %3$s</string>
+    <string name="car_mic_permission">Povolte v telefonu přístup k mikrofonu.</string>
+    <string name="car_game_over">Hra skončila. Novou hru spustíte v liště akcí.</string>
+    <string name="car_phase_combat">Boj</string>
+    <string name="car_phase_exploration">Průzkum</string>
+    <string name="notification_channel">Probíhající hra</string>
+    <string name="notification_text">Vypravěč poslouchá.</string>
+    <string name="settings_title">Auta a draci – nastavení</string>
+    <string name="settings_openai_key">Klíč OpenAI API</string>
+    <string name="settings_model">Model vypravěče</string>
+    <string name="settings_base_url">Adresa API</string>
+    <string name="settings_jev_endpoint">Adresa Jev</string>
+    <string name="settings_jev_key">Klíč Jev API</string>
+    <string name="settings_cost_cap">Limit útraty za hru (USD)</string>
+    <string name="settings_offline">Jen zjednodušený vypravěč (bez sítě)</string>
+    <string name="settings_car_mic">Použít mikrofon auta (experimentální)</string>
+    <string name="settings_save">Uložit nastavení</string>
+    <string name="settings_saved">Uloženo.</string>
+    <string name="action_grant_mic">Povolit mikrofon</string>
+    <string name="action_check_voice">Zkontrolovat český hlas a rozpoznávání</string>
+    <string name="action_install_voice">Nainstalovat český hlas</string>
+    <string name="action_latency">Změřit odezvu</string>
+    <string name="action_start">Spustit / pokračovat ve hře na telefonu</string>
+    <string name="action_new_game">Nová hra</string>
+    <string name="action_stop">Zastavit hru</string>
+    <string name="latency_speak_now">Teď něco řekněte…</string>
+    <string name="latency_result">Konec řeči → začátek odpovědi: %1$d ms</string>
+    <string name="mic_granted">Mikrofon povolen.</string>
+    <string name="tts_ok">Český hlas: připraven.</string>
+    <string name="tts_missing">Český hlas: chybí – nainstalujte ho.</string>
+    <string name="asr_on_device_ok">Rozpoznávání řeči v zařízení: dostupné.</string>
+    <string name="asr_on_device_missing">Rozpoznávání v zařízení není dostupné – použije se online rozpoznávání.</string>
+    <string name="sideload_hint">Android Auto: zapněte režim vývojáře a „Neznámé zdroje“ v nastavení Android Auto.</string>
+    <plurals name="hp_count">
+        <item quantity="one">%1$d život z %2$d</item>
+        <item quantity="few">%1$d životy z %2$d</item>
+        <item quantity="many">%1$d života z %2$d</item>
+        <item quantity="other">%1$d životů z %2$d</item>
+    </plurals>
+    <plurals name="enemy_count">
+        <item quantity="one">%d nepřítel</item>
+        <item quantity="few">%d nepřátelé</item>
+        <item quantity="many">%d nepřítele</item>
+        <item quantity="other">%d nepřátel</item>
+    </plurals>
+</resources>

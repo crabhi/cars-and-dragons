@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Android SDK packages
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0" > /dev/null
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Lint, test and build the APK
+        run: ./gradlew --no-daemon ktlintCheck detekt test :app:assembleRelease -PversionCode=${{ github.run_number }}
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: "**/build/reports/tests/"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: cars-and-dragons-apk
+          path: app/build/outputs/apk/release/*.apk
+
+      - name: Publish release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          name: Cars & Dragons 0.1.${{ github.run_number }}
+          make_latest: "true"
+          files: app/build/outputs/apk/release/*.apk
+          body: |
+            Sideloadable build of `${{ github.sha }}` for the Pixel 7a (Android 10+).
+
+            1. Download the APK below on the phone and open it (allow installing from your browser when asked).
+            2. In Android Auto settings enable developer mode (tap the version 10×) and turn on **Unknown sources**.
+            3. Open *Auta a draci* on the phone once: allow the microphone and enter your OpenAI API key.
+
+            Every build is signed with the same sideload key, so new builds install over old ones.

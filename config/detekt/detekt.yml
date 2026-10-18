@@ -1,0 +1,60 @@
+build:
+  maxIssues: 0
+
+complexity:
+  LongMethod:
+    threshold: 120
+  LongParameterList:
+    functionThreshold: 8
+    constructorThreshold: 32
+  CyclomaticComplexMethod:
+    threshold: 30
+    ignoreSimpleWhenEntries: true
+  TooManyFunctions:
+    active: false
+  ComplexCondition:
+    threshold: 6
+  NestedBlockDepth:
+    threshold: 6
+  LargeClass:
+    threshold: 800
+
+style:
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    maxLineLength: 140
+  ReturnCount:
+    max: 12
+  WildcardImport:
+    active: false
+  ForbiddenComment:
+    active: false
+  LoopWithTooManyJumpStatements:
+    maxJumpCount: 10
+  ThrowsCount:
+    max: 4
+  UnusedPrivateMember:
+    active: true
+  DestructuringDeclarationWithTooManyEntries:
+    maxDestructuringEntries: 4
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated: ['Test']
+  MatchingDeclarationName:
+    active: false
+  ConstructorParameterNaming:
+    active: true
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+  InstanceOfCheckForException:
+    active: false
+
+potential-bugs:
+  ImplicitDefaultLocale:
+    active: true

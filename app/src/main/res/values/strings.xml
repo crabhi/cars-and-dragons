@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Development fallback (English). Players always get values-cs: the app forces the Czech locale. -->
+<resources>
+    <string name="app_name">Cars &amp; Dragons</string>
+    <string name="car_title_party">Party</string>
+    <string name="car_loading">Preparing the game…</string>
+    <string name="car_paused">Paused</string>
+    <string name="car_action_pause">Pause</string>
+    <string name="car_action_resume">Resume</string>
+    <string name="car_action_new_game">New game</string>
+    <string name="car_enemies">Enemies: %1$s</string>
+    <string name="car_turn_marker">▶ %1$s</string>
+    <string name="car_row_detail">%1$s · AC %2$d · %3$s</string>
+    <string name="car_mic_permission">Allow microphone access on the phone.</string>
+    <string name="car_game_over">The game has ended. Start a new one from the action bar.</string>
+    <string name="car_phase_combat">Combat</string>
+    <string name="car_phase_exploration">Exploration</string>
+    <string name="notification_channel">Game in progress</string>
+    <string name="notification_text">The Dungeon Master is listening.</string>
+    <string name="settings_title">Cars &amp; Dragons – settings</string>
+    <string name="settings_openai_key">OpenAI API key</string>
+    <string name="settings_model">Narrator model</string>
+    <string name="settings_base_url">API base URL</string>
+    <string name="settings_jev_endpoint">Jev endpoint</string>
+    <string name="settings_jev_key">Jev API key</string>
+    <string name="settings_cost_cap">Spending cap per game (USD)</string>
+    <string name="settings_offline">Simple narrator only (no network)</string>
+    <string name="settings_car_mic">Use the car microphone (experimental)</string>
+    <string name="settings_save">Save settings</string>
+    <string name="settings_saved">Saved.</string>
+    <string name="action_grant_mic">Allow microphone</string>
+    <string name="action_check_voice">Check Czech voice and recognition</string>
+    <string name="action_install_voice">Install Czech voice</string>
+    <string name="action_latency">Measure latency</string>
+    <string name="action_start">Start / resume game on the phone</string>
+    <string name="action_new_game">New game</string>
+    <string name="action_stop">Stop game</string>
+    <string name="latency_speak_now">Say something now…</string>
+    <string name="latency_result">Speech end → speech start: %1$d ms</string>
+    <string name="mic_granted">Microphone allowed.</string>
+    <string name="tts_ok">Czech voice: ready.</string>
+    <string name="tts_missing">Czech voice: missing – install it.</string>
+    <string name="asr_on_device_ok">On-device speech recognition: available.</string>
+    <string name="asr_on_device_missing">On-device recognition unavailable – online recognition will be used.</string>
+    <string name="sideload_hint">Android Auto: enable developer mode and \"Unknown sources\" in the Android Auto settings.</string>
+    <plurals name="hp_count">
+        <item quantity="one">%1$d hit point of %2$d</item>
+        <item quantity="other">%1$d hit points of %2$d</item>
+    </plurals>
+    <plurals name="enemy_count">
+        <item quantity="one">%d enemy</item>
+        <item quantity="other">%d enemies</item>
+    </plurals>
+</resources>
