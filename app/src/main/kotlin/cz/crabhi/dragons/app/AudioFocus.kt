@@ -34,6 +34,7 @@ class AudioFocus(
                         held = true
                         onGain()
                     }
+
                     AudioManager.AUDIOFOCUS_LOSS,
                     AudioManager.AUDIOFOCUS_LOSS_TRANSIENT,
                     AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK,

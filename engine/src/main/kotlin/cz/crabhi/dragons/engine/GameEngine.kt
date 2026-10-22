@@ -135,6 +135,7 @@ class GameEngine(
                         return TurnStart(actor, events)
                     }
                 }
+
                 Phase.COMBAT -> {
                     if (state.turnIndex >= state.turnOrder.size) {
                         events += endRound()
@@ -156,7 +157,10 @@ class GameEngine(
                     sync()
                     return TurnStart(c, events)
                 }
-                else -> break
+
+                else -> {
+                    break
+                }
             }
         }
         sync()
@@ -308,18 +312,35 @@ class GameEngine(
         if (!actor.canAct) return Rejection.CANNOT_ACT
         val inCombat = state.phase == Phase.COMBAT
         return when (action) {
-            is ProposedAction.Attack -> validateAttack(actor, action, inCombat)
-            is ProposedAction.Cast -> validateCast(actor, action, inCombat)
-            is ProposedAction.UseItem -> validateItem(actor, action)
-            ProposedAction.Flee -> if (inCombat) null else Rejection.NOT_IN_COMBAT
-            ProposedAction.Rest ->
+            is ProposedAction.Attack -> {
+                validateAttack(actor, action, inCombat)
+            }
+
+            is ProposedAction.Cast -> {
+                validateCast(actor, action, inCombat)
+            }
+
+            is ProposedAction.UseItem -> {
+                validateItem(actor, action)
+            }
+
+            ProposedAction.Flee -> {
+                if (inCombat) null else Rejection.NOT_IN_COMBAT
+            }
+
+            ProposedAction.Rest -> {
                 when {
                     inCombat -> Rejection.IN_COMBAT
                     state.restedInScene -> Rejection.ALREADY_RESTED
                     else -> null
                 }
-            ProposedAction.Advance -> if (inCombat) Rejection.IN_COMBAT else null
-            is ProposedAction.Check ->
+            }
+
+            ProposedAction.Advance -> {
+                if (inCombat) Rejection.IN_COMBAT else null
+            }
+
+            is ProposedAction.Check -> {
                 if (inCombat) {
                     Rejection.IN_COMBAT
                 } else if (parseAbility(action) == null) {
@@ -327,7 +348,11 @@ class GameEngine(
                 } else {
                     null
                 }
-            ProposedAction.Defend, is ProposedAction.Narrative, is ProposedAction.Meta -> null
+            }
+
+            ProposedAction.Defend, is ProposedAction.Narrative, is ProposedAction.Meta -> {
+                null
+            }
         }
     }
 
@@ -351,7 +376,7 @@ class GameEngine(
         if (!Spellcasting.knows(actor, spell)) return Rejection.SPELL_NOT_KNOWN
         if (spell !in actor.memorized) return Rejection.SPELL_NOT_MEMORIZED
         return when (spell.target) {
-            SpellTarget.ENEMY ->
+            SpellTarget.ENEMY -> {
                 when {
                     spell == Spell.LIGHT && !inCombat -> null
                     !inCombat -> Rejection.NO_ENEMIES
@@ -359,7 +384,12 @@ class GameEngine(
                     state.find(action.target) != null -> Rejection.INVALID_TARGET
                     else -> Rejection.UNKNOWN_TARGET
                 }
-            SpellTarget.ENEMIES -> if (inCombat) null else Rejection.NO_ENEMIES
+            }
+
+            SpellTarget.ENEMIES -> {
+                if (inCombat) null else Rejection.NO_ENEMIES
+            }
+
             SpellTarget.ALLY -> {
                 val target = allyTarget(actor, action.target)
                 when {
@@ -368,7 +398,10 @@ class GameEngine(
                     else -> null
                 }
             }
-            SpellTarget.SELF, SpellTarget.PARTY, SpellTarget.NONE -> null
+
+            SpellTarget.SELF, SpellTarget.PARTY, SpellTarget.NONE -> {
+                null
+            }
         }
     }
 
@@ -406,9 +439,19 @@ class GameEngine(
                 val attack = actor.attacks().firstOrNull { it.weapon == weapon } ?: actor.attacks().first()
                 events += GameEvent.Attacked(Combat.attack(actor, target, attack, dice))
             }
-            is ProposedAction.Cast -> events += castSpell(actor, action)
-            is ProposedAction.UseItem -> events += useItem(actor, action)
-            ProposedAction.Defend -> events += GameEvent.Defended(actor.id)
+
+            is ProposedAction.Cast -> {
+                events += castSpell(actor, action)
+            }
+
+            is ProposedAction.UseItem -> {
+                events += useItem(actor, action)
+            }
+
+            ProposedAction.Defend -> {
+                events += GameEvent.Defended(actor.id)
+            }
+
             ProposedAction.Flee -> {
                 val roll = dice.d10()
                 val success = roll <= FLEE_CHANCE
@@ -419,7 +462,11 @@ class GameEngine(
                     events += GameEvent.EncounterEscaped
                 }
             }
-            ProposedAction.Rest -> events += rest(free = false)
+
+            ProposedAction.Rest -> {
+                events += rest(free = false)
+            }
+
             ProposedAction.Advance -> {
                 state.currentActorId = null
                 if (state.sceneIndex >= state.adventure!!.scenes.lastIndex) {
@@ -429,13 +476,20 @@ class GameEngine(
                     events += enterScene(state.sceneIndex + 1)
                 }
             }
+
             is ProposedAction.Check -> {
                 val prof = action.proficiency?.let { Proficiency.byId(it) }
                 val ability = parseAbility(action)!!
                 events += GameEvent.CheckMade(actor.id, ability, prof, Checks.check(actor, ability, prof, dice))
             }
-            is ProposedAction.Narrative -> events += GameEvent.NarrativeAction(actor.id, action.summary)
-            is ProposedAction.Meta -> Unit
+
+            is ProposedAction.Narrative -> {
+                events += GameEvent.NarrativeAction(actor.id, action.summary)
+            }
+
+            is ProposedAction.Meta -> {
+                Unit
+            }
         }
         if (state.phase == Phase.EXPLORATION) state.explorationTurns++
         return endTurn(events)
@@ -516,11 +570,15 @@ class GameEngine(
                     events += GameEvent.Attacked(Combat.attack(monster, target, attack, dice))
                 }
             }
+
             MonsterOption.Flee -> {
                 monster.fled = true
                 events += GameEvent.MonstersFled(listOf(monster.id))
             }
-            MonsterOption.Wait -> Unit
+
+            MonsterOption.Wait -> {
+                Unit
+            }
         }
         return endTurn(events)
     }

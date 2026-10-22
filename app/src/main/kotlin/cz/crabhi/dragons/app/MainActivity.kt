@@ -132,8 +132,14 @@ class MainActivity : Activity() {
             controller.state.collect { state ->
                 gameStatus.text =
                     when (state) {
-                        GameUiState.Idle -> "—"
-                        is GameUiState.Finished -> getString(R.string.car_game_over)
+                        GameUiState.Idle -> {
+                            "—"
+                        }
+
+                        is GameUiState.Finished -> {
+                            getString(R.string.car_game_over)
+                        }
+
                         is GameUiState.Running -> {
                             val s = state.status
                             val rows =

@@ -187,13 +187,22 @@ class AndroidSpeechInput(
                         val supported = support.supportedOnDeviceLanguages.any { it.startsWith("cs") }
                         val pending = support.pendingOnDeviceLanguages.any { it.startsWith("cs") }
                         when {
-                            installed -> callback("on-device cs-CZ: installed")
-                            pending -> callback("on-device cs-CZ: downloading")
+                            installed -> {
+                                callback("on-device cs-CZ: installed")
+                            }
+
+                            pending -> {
+                                callback("on-device cs-CZ: downloading")
+                            }
+
                             supported -> {
                                 recognizer.triggerModelDownload(intent)
                                 callback("on-device cs-CZ: download started")
                             }
-                            else -> callback("on-device cs-CZ: not supported, online recognition will be used")
+
+                            else -> {
+                                callback("on-device cs-CZ: not supported, online recognition will be used")
+                            }
                         }
                         recognizer.destroy()
                     }

@@ -57,12 +57,30 @@ private fun parseArgs(args: Array<String>): Options {
     var i = 0
     while (i < args.size) {
         when (args[i]) {
-            "--seed" -> seed = args[++i].toLong()
-            "--new" -> newGame = true
-            "--offline" -> offline = true
-            "--data" -> dataDir = File(args[++i])
-            "--script" -> script = File(args[++i])
-            "--verbose" -> verbose = true
+            "--seed" -> {
+                seed = args[++i].toLong()
+            }
+
+            "--new" -> {
+                newGame = true
+            }
+
+            "--offline" -> {
+                offline = true
+            }
+
+            "--data" -> {
+                dataDir = File(args[++i])
+            }
+
+            "--script" -> {
+                script = File(args[++i])
+            }
+
+            "--verbose" -> {
+                verbose = true
+            }
+
             "--help", "-h" -> {
                 println(
                     """
@@ -76,7 +94,10 @@ private fun parseArgs(args: Array<String>): Options {
                 )
                 kotlin.system.exitProcess(0)
             }
-            else -> error("Unknown argument ${args[i]}")
+
+            else -> {
+                error("Unknown argument ${args[i]}")
+            }
         }
         i++
     }

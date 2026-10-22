@@ -78,9 +78,12 @@ class OfflineInterpreter(
         val n = CzechText.normalize(utterance)
         return when {
             listOf("konec hry", "ukonci hru", "ukoncit hru", "uloz hru", "uloz a skonc").any { it in n } -> MetaCommand.QUIT
+
             listOf("zopakuj", "co jsi rikal", "cos rikal", "jeste jednou").any { it in n } -> MetaCommand.REPEAT
+
             listOf("stav druziny", "stav hry", "jak jsme na tom", "jak na tom jsme", "kolik mam zivot", "kolik mame zivot")
                 .any { it in n } -> MetaCommand.STATUS
+
             else -> null
         }
     }

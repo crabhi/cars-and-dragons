@@ -181,13 +181,23 @@ object Spellcasting {
         for (target in candidates.filter { it.canAct }.sortedBy { it.hitDice }) {
             val cost = maxOf(1, target.hitDice)
             when {
-                MonsterTag.UNDEAD in target.tags -> effects += SpellEffect.Resisted(target.id, ResistReason.IMMUNE)
-                target.hitDice >= 5 -> effects += SpellEffect.Resisted(target.id, ResistReason.TOO_POWERFUL)
-                cost > budget -> continue
+                MonsterTag.UNDEAD in target.tags -> {
+                    effects += SpellEffect.Resisted(target.id, ResistReason.IMMUNE)
+                }
+
+                target.hitDice >= 5 -> {
+                    effects += SpellEffect.Resisted(target.id, ResistReason.TOO_POWERFUL)
+                }
+
+                cost > budget -> {
+                    continue
+                }
+
                 target.race != null && dice.percent(target.race.sleepCharmResistance) -> {
                     budget -= cost
                     effects += SpellEffect.Resisted(target.id, ResistReason.RACIAL_RESISTANCE)
                 }
+
                 else -> {
                     budget -= cost
                     effects += apply(target, ConditionType.ASLEEP, null)

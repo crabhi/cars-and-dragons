@@ -1,23 +1,20 @@
-build:
-  maxIssues: 0
-
 complexity:
   LongMethod:
-    threshold: 120
+    allowedLines: 120
   LongParameterList:
-    functionThreshold: 8
-    constructorThreshold: 32
+    allowedFunctionParameters: 8
+    allowedConstructorParameters: 32
   CyclomaticComplexMethod:
-    threshold: 30
+    allowedComplexity: 30
     ignoreSimpleWhenEntries: true
   TooManyFunctions:
     active: false
   ComplexCondition:
-    threshold: 6
+    allowedConditions: 6
   NestedBlockDepth:
-    threshold: 6
+    allowedDepth: 6
   LargeClass:
-    threshold: 800
+    allowedLines: 800
 
 style:
   MagicNumber:
@@ -34,8 +31,6 @@ style:
     maxJumpCount: 10
   ThrowsCount:
     max: 4
-  UnusedPrivateMember:
-    active: true
   DestructuringDeclarationWithTooManyEntries:
     maxDestructuringEntries: 4
 
@@ -44,8 +39,6 @@ naming:
     ignoreAnnotated: ['Test']
   MatchingDeclarationName:
     active: false
-  ConstructorParameterNaming:
-    active: true
 
 exceptions:
   TooGenericExceptionCaught:

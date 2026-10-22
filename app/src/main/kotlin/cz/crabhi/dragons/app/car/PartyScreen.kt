@@ -126,16 +126,19 @@ class PartyScreen(
     private fun actions(state: GameUiState): ActionStrip {
         val action =
             when (state) {
-                is GameUiState.Running ->
+                is GameUiState.Running -> {
                     Action.Builder()
                         .setTitle(res.getString(if (state.paused) R.string.car_action_resume else R.string.car_action_pause))
                         .setOnClickListener { controller.togglePause() }
                         .build()
-                else ->
+                }
+
+                else -> {
                     Action.Builder()
                         .setTitle(res.getString(R.string.car_action_new_game))
                         .setOnClickListener { controller.start(newGame = state is GameUiState.Finished) }
                         .build()
+                }
             }
         return ActionStrip.Builder().addAction(action).build()
     }

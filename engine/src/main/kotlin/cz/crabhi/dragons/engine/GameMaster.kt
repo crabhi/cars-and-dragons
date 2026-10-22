@@ -267,8 +267,14 @@ class GameMaster(
 
     private suspend fun handleMeta(command: MetaCommand) {
         when (command) {
-            MetaCommand.STATUS -> speak(statusText())
-            MetaCommand.REPEAT -> io.say(lastSpoken)
+            MetaCommand.STATUS -> {
+                speak(statusText())
+            }
+
+            MetaCommand.REPEAT -> {
+                io.say(lastSpoken)
+            }
+
             MetaCommand.QUIT -> {
                 saves.save(state)
                 io.say(glossary["msg.saved_quit"])

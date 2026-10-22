@@ -45,6 +45,59 @@ Things you can say (examples): *útočím na druhého goblina*, *střílím z lu
 - The game is saved after every action and resumes on the next drive.
 - Transcripts are kept on the phone for 30 days and never uploaded.
 
+## Run in the emulator
+
+The car side is the Android Auto **Desktop Head Unit (DHU)**, which connects to a phone. The phone can
+be an emulator (below) or a real phone over USB. The commands use Google's
+[Android CLI](https://developer.android.com/tools/agents/android-cli) (`android`); the emulator needs
+hardware virtualization (KVM on Linux).
+
+```bash
+# 1. Install the Android CLI (macOS: brew tap android/tap && brew install android-cli).
+curl -fsSL https://dl.google.com/android/cli/latest/linux_x86_64/install.sh | bash
+android info      # shows which SDK it uses; point sdk.dir in local.properties at the same SDK
+                  # (or pass --sdk=<path> to every android command)
+
+# 2. Emulator, platform tools and the Android Auto Desktop Head Unit.
+android sdk install emulator platform-tools extras/google/auto
+
+# 3. A phone emulator. The medium_phone profile uses a Google Play image, which Android Auto needs.
+android emulator create medium_phone
+android emulator start medium_phone
+
+# 4. Build, install and open the app. -g grants the microphone permission up front.
+./gradlew :app:assembleDebug
+android run --install-options=-g --apks=$(ls app/build/outputs/apk/debug/*.apk)
+```
+
+5. In the emulator, sign in to the Play Store and install or update **Android Auto**. Then open
+   Settings → Connected devices → Connection preferences → Android Auto, tap *Version* about 10× to
+   enable developer mode, and in the ⋮ menu:
+   - *Developer settings* → enable **Unknown sources**,
+   - **Start head unit server**.
+6. Connect the head unit:
+
+   ```bash
+   SDK=<the SDK path from android info>
+   $SDK/platform-tools/adb forward tcp:5277 tcp:5277
+   $SDK/extras/google/auto/desktop-head-unit
+   ```
+
+7. Open **Auta a draci** in the DHU launcher. The game starts by voice and the party screen shows on
+   the DHU. Stop the emulator with `android emulator stop medium_phone`.
+
+Audio in the emulator:
+- Microphone: in the emulator window open ⋯ *Extended controls* → *Microphone* and enable
+  *Virtual microphone uses host audio input*; otherwise the game hears silence and skips turns.
+- Czech voice: Settings → System → Languages → Text-to-speech → Google → install voice data →
+  *Čeština*.
+- On-device Czech recognition is likely missing in the emulator; the app falls back to Google's online
+  recognition (needs the Google app and network). *Zkontrolovat český hlas a rozpoznávání* in the app
+  shows what is available.
+
+Without the DHU, *Spustit / pokračovat ve hře na telefonu* in the app plays the whole voice game on the
+emulator's phone screen.
+
 ## Development
 
 | Module | What |
@@ -54,9 +107,11 @@ Things you can say (examples): *útočím na druhého goblina*, *střílím z lu
 | `:cli` | Terminal harness playing the same game in Czech. |
 | `:app` | Android Auto (Car App Library) screens, speech in/out, audio focus, media buttons. |
 
-Any recent JDK can launch `./gradlew` (tested with 21 and 27). The build itself always runs on
-JDK 21 (`gradle/gradle-daemon-jvm.properties`): Gradle uses an installed JDK 21 or downloads one into
-`~/.gradle/jdks` on first use.
+The build runs on **Java 27** (Gradle 9.8, Kotlin 2.4, Android Gradle Plugin 9.4). Any installed JDK
+can launch `./gradlew`; Gradle then runs the build on JDK 27 (`gradle/gradle-daemon-jvm.properties`),
+using an installed one or downloading it into `~/.gradle/jdks` on first use. The JVM modules compile
+with the JDK 27 toolchain to Java 26 bytecode, the newest target Kotlin 2.4 can emit; the Android app
+code targets Java 21.
 
 ```bash
 ./gradlew test                    # all unit tests
@@ -68,6 +123,7 @@ JDK 21 (`gradle/gradle-daemon-jvm.properties`): Gradle uses an installed JDK 21 
 The CLI reads `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_BASE_URL`, `JEV_ENDPOINT` and `JEV_API_KEY`
 from the environment or `local.properties` (`openai.apiKey`, …). `--offline` forces the offline
 narrator, `--seed N` makes a game reproducible, `--script FILE` feeds player lines from a file.
+The installed CLI needs Java 26 or newer at runtime (`JAVA_HOME` pointing to JDK 27 works).
 
 Secrets go to `local.properties` (git-ignored); the published APK contains no keys.
 

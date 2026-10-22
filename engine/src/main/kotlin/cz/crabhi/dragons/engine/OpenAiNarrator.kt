@@ -168,7 +168,7 @@ class OpenAiNarrator(
 
     private fun describeRequest(request: NarrationRequest): Pair<String, JsonObject> =
         when (request) {
-            is NarrationRequest.Events ->
+            is NarrationRequest.Events -> {
                 "Narrate these resolved game events as the DM." to
                     buildJsonObject {
                         request.actorId?.let { put("actor_id", it) }
@@ -176,7 +176,9 @@ class OpenAiNarrator(
                         PromptContext.action(request.action)?.let { put("proposed_action", it) }
                         put("events", PromptContext.events(request.events))
                     }
-            is NarrationRequest.TurnPrompt ->
+            }
+
+            is NarrationRequest.TurnPrompt -> {
                 "First narrate preceding_events (if any) briefly. Then ask the character with actor_id what they do now, " +
                     "by name in the vocative, in one sentence. In combat you may hint at the most relevant options." to
                     buildJsonObject {
@@ -184,7 +186,9 @@ class OpenAiNarrator(
                         put("legal_options", PromptContext.options(request.options))
                         put("preceding_events", PromptContext.events(request.precedingEvents))
                     }
-            is NarrationRequest.Rejected ->
+            }
+
+            is NarrationRequest.Rejected -> {
                 "The player's proposed action is not possible. Explain briefly why (reason code given) and ask again." to
                     buildJsonObject {
                         put("actor_id", request.actorId)
@@ -192,8 +196,11 @@ class OpenAiNarrator(
                         put("reason", request.rejection.name.lowercase())
                         put("reason_czech", glossary[request.rejection.key])
                     }
-            NarrationRequest.Recap ->
+            }
+
+            NarrationRequest.Recap -> {
                 "The game was interrupted. Remind the players where the story stands in one sentence." to buildJsonObject { }
+            }
         }
 
     private suspend fun chat(
