@@ -109,9 +109,8 @@ emulator's phone screen.
 
 The build runs on **Java 27** (Gradle 9.8, Kotlin 2.4, Android Gradle Plugin 9.4). Any installed JDK
 can launch `./gradlew`; Gradle then runs the build on JDK 27 (`gradle/gradle-daemon-jvm.properties`),
-using an installed one or downloading it into `~/.gradle/jdks` on first use. The JVM modules compile
-with the JDK 27 toolchain to Java 26 bytecode, the newest target Kotlin 2.4 can emit; the Android app
-code targets Java 21.
+using an installed one or downloading it into `~/.gradle/jdks` on first use. All modules, including the
+Android app, compile to Java 26 bytecode, the newest target Kotlin 2.4 can emit.
 
 ```bash
 ./gradlew test                    # all unit tests
