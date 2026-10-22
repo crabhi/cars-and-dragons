@@ -54,6 +54,10 @@ Things you can say (examples): *útočím na druhého goblina*, *střílím z lu
 | `:cli` | Terminal harness playing the same game in Czech. |
 | `:app` | Android Auto (Car App Library) screens, speech in/out, audio focus, media buttons. |
 
+Any recent JDK can launch `./gradlew` (tested with 21 and 27). The build itself always runs on
+JDK 21 (`gradle/gradle-daemon-jvm.properties`): Gradle uses an installed JDK 21 or downloads one into
+`~/.gradle/jdks` on first use.
+
 ```bash
 ./gradlew test                    # all unit tests
 ./gradlew ktlintCheck detekt      # style and static analysis

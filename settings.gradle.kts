@@ -6,6 +6,11 @@ pluginManagement {
     }
 }
 
+plugins {
+    // Lets Gradle download the JDK the build daemon needs (see gradle/gradle-daemon-jvm.properties).
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
